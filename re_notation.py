@@ -35,7 +35,7 @@ def invert_parenthesis(s):
 
 
 def add_concatenation_dot(s):
-    pattern = re.compile(r'[a-zA-Z0-9][a-zA-Z0-9]|\)\(|\*[a-zA-Z0-9]|\*\(')
+    pattern = re.compile(r'[a-zA-Z0-9][a-zA-Z0-9]|\)\(|\*[a-zA-Z0-9]|\*\(|[a-zA-Z0-9]\(')
     res = pattern.search(s)
     while(res):
         target_str = res.group()
@@ -75,7 +75,10 @@ def infix_to_postfix(re_expr):
                         result += top
             stack.append(c)
         else:
-            result += c
+            if len(stack)>0 and c == "." and stack[-1] == "*": #when concatenating a kleene
+                result += stack.pop() + c
+            else:
+                result += c
 
     while(len(stack)>0): result += stack.pop()
 
