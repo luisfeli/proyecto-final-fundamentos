@@ -34,11 +34,23 @@ def invert_parenthesis(s):
     return result
 
 
+def add_concatenation_dot(s):
+    pattern = re.compile(r'[a-zA-Z0-9][a-zA-Z0-9]|\)\(|\*[a-zA-Z0-9]|\*\(')
+    res = pattern.search(s)
+    while(res):
+        target_str = res.group()
+        s = re.sub(pattern, target_str[0]+"."+target_str[1], s, count=1)
+        res = pattern.search(s)
+    return s
+
 def infix_to_postfix(re_expr):
     stack = []
     result = ""
-    re_expr = invert_parenthesis(re_expr[::-1]) # reverse string and the invert parenthesis
     re_expr = re.sub(r'\s+', '', re_expr)
+    re_expr = add_concatenation_dot(re_expr)
+    original = re_expr
+    re_expr = invert_parenthesis(re_expr[::-1]) # reverse string and the invert parenthesis
+
 
     for c in re_expr:
         if is_operator(c):
@@ -54,15 +66,14 @@ def infix_to_postfix(re_expr):
                     result += next
                 continue
 
-            if len(stack) > 0 and (precedence(stack[-1]) >= precedence(c)) and stack[-1] != "(":
+            while len(stack) > 0 and (precedence(stack[-1]) >= precedence(c)) and stack[-1] != "(":
                 top = stack.pop()
                 if top != "(" and top != ")":
-                    result += top
-                stack.append(c)
-                continue
-
-            else:
-                stack.append(c)
+                    if result[-1] == ".":
+                        result = result[0:-1] + top + "."
+                    else:
+                        result += top
+            stack.append(c)
         else:
             result += c
 
