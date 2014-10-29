@@ -3,9 +3,9 @@ __author__ = 'aortegag'
 
 class Precedence:
     PARENTHESIS = 5 # 5 is the highest precedence
-    UNION = 4
-    KLEENE = 3
-    CONCAT = 2
+    KLEENE = 4
+    CONCAT = 3
+    UNION = 2
 
 
 def precedence(op):
@@ -41,14 +41,25 @@ def infix_to_postfix(re_expr):
 
     for c in re_expr:
         if is_operator(c):
-            if len(stack) > 0 and (c != ")" and c != "(") and (precedence(stack[-1]) < precedence(c) ):
-                result += stack.pop()
-            elif c is ")":
+            if c is "(":
+                stack.append(c)
+                continue
+
+            if c is ")":
                 while True and len(stack) > 0:
                     next = stack.pop()
                     if next is "(":
                         break
                     result += next
+                continue
+
+            if len(stack) > 0 and (precedence(stack[-1]) >= precedence(c)) and stack[-1] != "(":
+                top = stack.pop()
+                if top != "(" and top != ")":
+                    result += top
+                stack.append(c)
+                continue
+
             else:
                 stack.append(c)
         else:
