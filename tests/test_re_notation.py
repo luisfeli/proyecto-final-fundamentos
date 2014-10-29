@@ -44,6 +44,15 @@ class TestReNotation(unittest.TestCase):
         self.assertEqual("+a+*cf", infix_to_postfix("a + c* + f"))
         self.assertEqual("+*a.b.e+*c.df.g.+h.ij.j", infix_to_postfix("(abe)* + c*d + (fg)(hi + jj)"))
         self.assertEqual("+*a.b.e+c.*df.g.+h.ij.j", infix_to_postfix("(abe)* + cd* + (fg)(hi + jj)"))
+        self.assertEqual("+*a.b.e+*c.df.g.+h.ij.j", infix_to_postfix("(abe)* + (c)*d + (fg)(hi + jj)"))
+        self.assertEqual("c.*d", infix_to_postfix("c(d)*"))
+        self.assertEqual("*d.c", infix_to_postfix("(d)*c"))
+        self.assertEqual("b.*d.c", infix_to_postfix("b.(d)*c"))
+        self.assertEqual("+*a.b.e+c.*df.g.+h.ij.j", infix_to_postfix("(abe)* + c(d)* + (fg)(hi + jj)"))
+        self.assertEqual("+*a.b.e+*c.*df.g.+h.ij.j", infix_to_postfix("(abe)* + c*d* + (fg)(hi + jj)"))
+        self.assertEqual("+*a.b.e+*c.*df.g.+h.ij.j", infix_to_postfix("(abe)* + (c)*(d)* + (fg)(hi + jj)"))
+        self.assertEqual("+*a.b.e+*c.x.*d.yf.g.+h.ij.j", infix_to_postfix("(abe)* + (cx)*(dy)* + (fg)(hi + jj)"))
+        self.assertEqual("+*a.b.e+*c.x.*d.yf.g.+h.ij.j.*+y.yx.x", infix_to_postfix("(abe)* + (cx)*(dy)* + (fg)(hi + jj)(yy + xx)*"))
 
 
 if __name__ == "__main__":
