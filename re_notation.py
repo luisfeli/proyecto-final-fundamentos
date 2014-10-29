@@ -1,5 +1,5 @@
 __author__ = 'aortegag'
-
+import re
 
 class Precedence:
     PARENTHESIS = 5 # 5 is the highest precedence
@@ -38,6 +38,7 @@ def infix_to_postfix(re_expr):
     stack = []
     result = ""
     re_expr = invert_parenthesis(re_expr[::-1]) # reverse string and the invert parenthesis
+    re_expr = re.sub(r'\s+', '', re_expr)
 
     for c in re_expr:
         if is_operator(c):
