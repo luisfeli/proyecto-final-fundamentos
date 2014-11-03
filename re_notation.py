@@ -43,7 +43,7 @@ def add_concatenation_dot(s):
         res = pattern.search(s)
     return s
 
-def infix_to_postfix(re_expr):
+def infix_to_prefix(re_expr):
     stack = []
     result = ""
     re_expr = re.sub(r'\s+', '', re_expr)
