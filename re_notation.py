@@ -13,13 +13,15 @@ def precedence(op):
         return Precedence.PARENTHESIS
     if op == "+":
         return Precedence.UNION
+    if op == ".":
+        return Precedence.CONCAT
     if op == "*":
         return Precedence.KLEENE
     return Precedence.CONCAT
 
 
 def is_operator(c):
-    if c == '(' or c == ')' or c == '*' or c == "+":
+    if c == '(' or c == ')' or c == '*' or c == "+" or c == ".":
         return True
     return False
 
@@ -69,10 +71,7 @@ def infix_to_prefix(re_expr):
             while len(stack) > 0 and (precedence(stack[-1]) >= precedence(c)) and stack[-1] != "(":
                 top = stack.pop()
                 if top != "(" and top != ")":
-                    if result[-1] == ".":
-                        result = result[0:-1] + top + "."
-                    else:
-                        result += top
+                    result += top
             stack.append(c)
         else:
             if len(stack)>0 and c == "." and stack[-1] == "*": #when concatenating a kleene
