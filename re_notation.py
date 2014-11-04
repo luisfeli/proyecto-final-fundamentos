@@ -51,7 +51,7 @@ def add_concatenation_dot(s):
 def infix_to_prefix(re_expr):
     stack = []
     result = ""
-    unbalanced = False
+    unbalanced = 0
     re_expr = re.sub(r'\s+', '', re_expr)
     re_expr = add_concatenation_dot(re_expr)
     original = re_expr
@@ -61,12 +61,12 @@ def infix_to_prefix(re_expr):
     for c in re_expr:
         if is_operator(c):
             if c is "(":
-                unbalanced = not unbalanced
+                unbalanced += 1
                 stack.append(c)
                 continue
 
             if c is ")":
-                unbalanced = not unbalanced
+                unbalanced -= 1
                 while True and len(stack) > 0:
                     next = stack.pop()
                     if next is "(":

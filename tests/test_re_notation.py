@@ -55,13 +55,15 @@ class TestReNotation(unittest.TestCase):
         self.assertEqual("+*.a.be+.*.cx*.dy..fg+.hi.jj", infix_to_prefix("(abe)* + (cx)*(dy)* + (fg)(hi + jj)"))
         self.assertEqual("+*.a.be+.*.cx*.dy..fg.+.hi.jj*+.yy.xx", infix_to_prefix("(abe)* + (cx)*(dy)* + (fg)(hi + jj)(yy + xx)*"))
 
-    def test_infix_to_postfix_invalid_cases(self):
+    def test_infix_to_postfix_unbalanced_parenthesis(self):
         self.assertRaises(ReNotationException, infix_to_prefix, "(a")
         self.assertRaises(ReNotationException, infix_to_prefix, "a)")
         self.assertRaises(ReNotationException, infix_to_prefix, "((a)")
         self.assertRaises(ReNotationException, infix_to_prefix, "((a)))")
         self.assertRaises(ReNotationException, infix_to_prefix, "((a)")
         self.assertRaises(ReNotationException, infix_to_prefix, "(abe)* + (c)*d + (fg)hi + jj)")
+        self.assertRaises(ReNotationException, infix_to_prefix, "(abe* + c(d* + (fg) (hi + jj)")
+        self.assertRaises(ReNotationException, infix_to_prefix, "(abe)* + (cx)*(dy)* + (fg(hi + jj)")
 
 
 if __name__ == "__main__":
