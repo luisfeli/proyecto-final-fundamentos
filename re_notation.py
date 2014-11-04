@@ -35,9 +35,7 @@ def invert_parenthesis(s):
 
     return result
 
-class ReNotationException(BaseException):
-    def __init__(self, msg):
-        self._msg = msg
+
 
 def add_concatenation_dot(s):
     pattern = re.compile(r'[a-zA-Z0-9][a-zA-Z0-9]|\)\(|\*[a-zA-Z0-9]|\*\(|[a-zA-Z0-9]\(')
@@ -48,11 +46,28 @@ def add_concatenation_dot(s):
         res = pattern.search(s)
     return s
 
+
+def validate_operator_position(s):
+    """
+    Checks for specific error conditions according to our requirements for the position
+    of the operators. Such rules does not necessarily match to the ones established
+    in Python regular expressions.
+    :param s: The regular expression
+    :return: nothing
+    :raises: An exception when this is a malformed regex
+    """
+    pattern = re.compile(r'\+{2,}|\(\+|\+\)|\+$|^\+|^\*|\+\*|\(\*|^\)|\($')
+    res = pattern.search(s)
+    if res:
+        raise Exception("invalid regex")
+
+
 def infix_to_prefix(re_expr):
     stack = []
     result = ""
     unbalanced = 0
-    re_expr = re.sub(r'\s+', '', re_expr)
+    re_expr = re.sub(r'\s+', '', re_expr) # remove whitespaces
+    validate_operator_position(re_expr)
     re_expr = add_concatenation_dot(re_expr)
     original = re_expr
     re_expr = invert_parenthesis(re_expr[::-1]) # reverse string and the invert parenthesis
@@ -89,4 +104,5 @@ def infix_to_prefix(re_expr):
 
     while(stack): result += stack.pop()
 
-    return result[::-1]
+    final = result[::-1]
+    return final
