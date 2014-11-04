@@ -38,7 +38,7 @@ def invert_parenthesis(s):
 
 
 def add_concatenation_dot(s):
-    pattern = re.compile(r'[a-zA-Z0-9][a-zA-Z0-9]|\)\(|\*[a-zA-Z0-9]|\*\(|[a-zA-Z0-9]\(')
+    pattern = re.compile(r'[a-zA-Z0-9#][a-zA-Z0-9#]|\)\(|\*[a-zA-Z0-9#]|\*\(|[a-zA-Z0-9#]\(')
     res = pattern.search(s)
     while(res):
         target_str = res.group()
@@ -89,18 +89,15 @@ def infix_to_prefix(re_expr):
                     result += next
                 continue
 
-            while len(stack) > 0 and (precedence(stack[-1]) >= precedence(c)) and stack[-1] != "(":
+            while stack and (precedence(stack[-1]) >= precedence(c)) and stack[-1] != "(":
                 top = stack.pop()
                 if top != "(" and top != ")":
                     result += top
             stack.append(c)
         else:
-            if len(stack)>0 and c == "." and stack[-1] == "*": #when concatenating a kleene
-                result += stack.pop() + c
-            else:
-                result += c
+            result += c
 
-    if unbalanced : raise ReNotationException("Unbalanced parenthesis!")
+    if unbalanced : raise Exception("Unbalanced parenthesis!")
 
     while(stack): result += stack.pop()
 

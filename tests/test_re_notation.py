@@ -10,6 +10,14 @@ import unittest
 
 class TestReNotation(unittest.TestCase):
     def test_infix_to_prefix_valid_cases(self):
+        self.assertEqual("#", infix_to_prefix("#"))
+        self.assertEqual(".a#", infix_to_prefix("a#"))
+        self.assertEqual(".#a", infix_to_prefix("#a"))
+        self.assertEqual("+.#ac", infix_to_prefix("#a + c"))
+        self.assertEqual("*#", infix_to_prefix("#*"))
+        self.assertEqual(".a*#", infix_to_prefix("a#*"))
+        self.assertEqual("**#", infix_to_prefix("(#*)*"))
+        # self.assertEqual("**#", infix_to_prefix("#**"))
         self.assertEqual("+34", infix_to_prefix("3+4"))
         self.assertEqual("+a+bc", infix_to_prefix("a+b+c"))
         self.assertEqual("+a+b+cd", infix_to_prefix("a+b+c+d"))
