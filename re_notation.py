@@ -35,6 +35,9 @@ def invert_parenthesis(s):
 
     return result
 
+class ReNotationException(BaseException):
+    def __init__(self, msg):
+        self._msg = msg
 
 def add_concatenation_dot(s):
     pattern = re.compile(r'[a-zA-Z0-9][a-zA-Z0-9]|\)\(|\*[a-zA-Z0-9]|\*\(|[a-zA-Z0-9]\(')
@@ -48,6 +51,7 @@ def add_concatenation_dot(s):
 def infix_to_prefix(re_expr):
     stack = []
     result = ""
+    unbalanced = False
     re_expr = re.sub(r'\s+', '', re_expr)
     re_expr = add_concatenation_dot(re_expr)
     original = re_expr
@@ -57,10 +61,12 @@ def infix_to_prefix(re_expr):
     for c in re_expr:
         if is_operator(c):
             if c is "(":
+                unbalanced = not unbalanced
                 stack.append(c)
                 continue
 
             if c is ")":
+                unbalanced = not unbalanced
                 while True and len(stack) > 0:
                     next = stack.pop()
                     if next is "(":
@@ -79,6 +85,8 @@ def infix_to_prefix(re_expr):
             else:
                 result += c
 
-    while(len(stack)>0): result += stack.pop()
+    if unbalanced : raise ReNotationException("Unbalanced parenthesis!")
+
+    while(stack): result += stack.pop()
 
     return result[::-1]

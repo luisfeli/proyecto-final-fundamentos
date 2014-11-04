@@ -6,10 +6,11 @@ import sys
 sys.path.append("..")
 
 from re_notation import infix_to_prefix
+from re_notation import ReNotationException
 import unittest
 
 class TestReNotation(unittest.TestCase):
-    def test_infix_to_postfix(self):
+    def test_infix_to_postfix_valid_cases(self):
         self.assertEqual("+34", infix_to_prefix("3+4"))
         self.assertEqual("+a+bc", infix_to_prefix("a+b+c"))
         self.assertEqual("+a+b+cd", infix_to_prefix("a+b+c+d"))
@@ -53,6 +54,14 @@ class TestReNotation(unittest.TestCase):
         self.assertEqual("+*.a.be+.*c*d..fg+.hi.jj", infix_to_prefix("(abe)* + (c)*(d)* + (fg)(hi + jj)"))
         self.assertEqual("+*.a.be+.*.cx*.dy..fg+.hi.jj", infix_to_prefix("(abe)* + (cx)*(dy)* + (fg)(hi + jj)"))
         self.assertEqual("+*.a.be+.*.cx*.dy..fg.+.hi.jj*+.yy.xx", infix_to_prefix("(abe)* + (cx)*(dy)* + (fg)(hi + jj)(yy + xx)*"))
+
+    def test_infix_to_postfix_invalid_cases(self):
+        self.assertRaises(ReNotationException, infix_to_prefix, "(a")
+        self.assertRaises(ReNotationException, infix_to_prefix, "a)")
+        self.assertRaises(ReNotationException, infix_to_prefix, "((a)")
+        self.assertRaises(ReNotationException, infix_to_prefix, "((a)))")
+        self.assertRaises(ReNotationException, infix_to_prefix, "((a)")
+        self.assertRaises(ReNotationException, infix_to_prefix, "(abe)* + (c)*d + (fg)hi + jj)")
 
 
 if __name__ == "__main__":
