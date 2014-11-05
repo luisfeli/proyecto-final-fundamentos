@@ -90,6 +90,8 @@ def infix_to_prefix(re_expr):
                 continue
 
             while stack and (precedence(stack[-1]) >= precedence(c)) and stack[-1] != "(":
+                if stack[-1] == "*" and c == "*": # special case for kleene as it's a unary operator
+                    break
                 top = stack.pop()
                 if top != "(" and top != ")":
                     result += top
