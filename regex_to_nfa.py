@@ -318,9 +318,10 @@ class DFA(NFA):
         key = (state, str(symbol))
 
         if key in self._transitions:
-            err_mgs = ("ERROR: transition function already "
-                       "contains a entry for {0} to {1}")
-            raise KeyError(err_mgs.format(key, self._transitions[key]))
+            if self._transitions[key] != next_state:
+                err_mgs = ("ERROR: transition function already "
+                           "contains a entry for {0} to {1}")
+                raise KeyError(err_mgs.format(key, self._transitions[key]))
 
         self._transitions[key] = next_state
         self._states.add(state)
