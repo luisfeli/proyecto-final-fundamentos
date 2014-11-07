@@ -44,7 +44,7 @@ def build_dfa(regex):
 def main():
     print("Hello world")
     regex1 = re_notation.infix_to_prefix("a+b")
-    regex2 = re_notation.infix_to_prefix("(a+b)*")
+    regex2 = re_notation.infix_to_prefix("a+b*")
 
     dfa2 = build_dfa(regex2)
     dfa1 = build_dfa(regex1)
