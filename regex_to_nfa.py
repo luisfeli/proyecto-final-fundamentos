@@ -402,3 +402,43 @@ def compare_dfas(dfa1, dfa2):
                 stack.append((next_state1, next_state2, input_str + symbol))
 
     return result
+
+
+def build_dfa(regex):
+    """receives a regex in prefix notation and returns
+    the equivalent DFA"""
+    regex = regex[::-1]
+    stack = []
+
+    for symbol in regex:
+        if symbol.isalnum():
+            symbol_nfa = NFA()
+            symbol_nfa.init_from_symbol(symbol)
+            stack.append(symbol_nfa)
+        elif symbol == '.':
+            op1 = stack.pop()
+            op2 = stack.pop()
+            nfa = nfa_concatenation(op1, op2)
+            stack.append(nfa)
+        elif symbol == '+':
+            op1 = stack.pop()
+            op2 = stack.pop()
+            nfa = nfa_union(op1, op2)
+            stack.append(nfa)
+        elif symbol == '*':
+            op = stack.pop()
+            nfa = nfa_kleene_star(op)
+            stack.append(nfa)
+
+        else:
+            print "ERROR: Unkown symbol {0}\n".format(symbol)
+            return -1
+
+    nfa = stack.pop()
+    if stack:
+        print "ERROR: stack is not empty\n"
+        return -1
+
+    nfa = remove_empty_transitions(nfa)
+    dfa = nfa_to_dfa(nfa)
+    return dfa
