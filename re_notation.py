@@ -2,7 +2,8 @@ __author__ = 'aortegag'
 import re
 
 class Precedence:
-    PARENTHESIS = 5 # 5 is the highest precedence
+    # 5 is the highest precedence
+    PARENTHESIS = 5
     KLEENE = 4
     CONCAT = 3
     UNION = 2
@@ -32,12 +33,17 @@ def invert_parenthesis(s):
         if c == "(": result += ")"
         elif c == ")": result += "("
         else: result += c
-
     return result
 
 
-
 def add_concatenation_dot(s):
+    """
+    Adds the character '.' in the positions that correspond for a concatenation.
+    Such character '.' is needed to have an internal representation of concatenation
+    which we can detect and handle.
+    :param s: Regular expression
+    :return: Regular expression with '.'s representing concatenation
+    """
     pattern = re.compile(r'[a-zA-Z0-9#][a-zA-Z0-9#]|\)\(|\*[a-zA-Z0-9#]|\*\(|[a-zA-Z0-9#]\(')
     res = pattern.search(s)
     while(res):
@@ -63,15 +69,20 @@ def validate_operator_position(s):
 
 
 def infix_to_prefix(re_expr):
+    """
+    Converts a regular expression from infix notation to a prefix notation.
+    :param re_expr: String representing a regular expression in infix notation
+    :return: regular expression in prefix notation
+    """
     stack = []
     result = ""
     unbalanced = 0
-    re_expr = re.sub(r'\s+', '', re_expr) # remove whitespaces
+    # It's mandatory to remove whitespaces FIRST
+    re_expr = re.sub(r'\s+', '', re_expr)
     validate_operator_position(re_expr)
     re_expr = add_concatenation_dot(re_expr)
-    original = re_expr
-    re_expr = invert_parenthesis(re_expr[::-1]) # reverse string and the invert parenthesis
-
+    # reverse string and then invert parenthesis
+    re_expr = invert_parenthesis(re_expr[::-1])
 
     for c in re_expr:
         if is_operator(c):
@@ -103,5 +114,5 @@ def infix_to_prefix(re_expr):
 
     while(stack): result += stack.pop()
 
-    final = result[::-1]
-    return final
+    # Revert regex again so we can read it in prefix notation
+    return result[::-1]
