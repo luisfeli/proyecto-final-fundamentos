@@ -27,13 +27,13 @@ class GUI(Tkinter.Frame):
         self.columnconfigure(1, pad=3)
         self.columnconfigure(2, pad=3)
         self.columnconfigure(3, pad=3)
-        self.columnconfigure(3, pad=3)
+        self.columnconfigure(4, pad=3)
 
         self.rowconfigure(0, pad=3)
         self.rowconfigure(1, pad=3)
         self.rowconfigure(2, pad=3)
         self.rowconfigure(3, pad=3)
-        self.rowconfigure(3, pad=3)
+        self.rowconfigure(4, pad=3)
 
         # First regex label
         self.first_regex_label = Tkinter.Label(self)
@@ -104,20 +104,24 @@ class Controller():
         self.gui.mainloop()
 
     def binding(self):
-        self.gui.compare_button["command"] = self.command
+        self.gui.compare_button["command"] = self.compare
         self.gui.run_test_button["command"] = self.run_test
 
-    def command(self):
+    def compare(self):
         # Model is actually called from here
         first_regex = self.gui.first_regex.get().strip()
         second_regex = self.gui.second_regex.get().strip()
 
+        print "--------------------------------------------"
+        print "Regular expressions received from the user:"
         print first_regex
         print second_regex
 
         regex1 = re_notation.infix_to_prefix(first_regex)
         regex2 = re_notation.infix_to_prefix(second_regex)
 
+        print "--------------------------------------------"
+        print "Converted regular expressions to prefix notation:"
         print regex1
         print regex2
 
@@ -125,8 +129,11 @@ class Controller():
         second_dfa = regex_to_nfa.build_dfa(regex2)
 
         result, diff_string = regex_to_nfa.compare_dfas(first_dfa, second_dfa)
+        print "--------------------------------------------"
+        print "Do the regular expressions recognize the same language?"
         print result
 
+        print "--------------------------------------------"
         if result:
             message = "Las expresiones regulares son equivalentes"
         else:

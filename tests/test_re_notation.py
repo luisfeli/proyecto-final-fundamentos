@@ -81,7 +81,7 @@ class TestReNotation(unittest.TestCase):
         self.assertRaises(Exception, infix_to_prefix, "(abe* + c(d* + (fg) (hi + jj)")
         self.assertRaises(Exception, infix_to_prefix, "(abe)* + (cx)*(dy)* + (fg(hi + jj)")
 
-    def test_infix_prefix_wrong_operator_order(self):
+    def test_infix_to_prefix_wrong_operator_order(self):
         self.assertRaises(Exception, infix_to_prefix, "a+")
         self.assertRaises(Exception, infix_to_prefix, "+a")
         self.assertRaises(Exception, infix_to_prefix, "a+")
