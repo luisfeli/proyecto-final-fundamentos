@@ -44,3 +44,6 @@ class TestRegexToNfa(unittest.TestCase):
         self.assertNotEqual(tup, compare("(a+b)* b (a+b)* b (a+b)*", "a* b a* b (a+b)*aa"))
         self.assertNotEqual(tup, compare("(0+11*0)*", "(0+11*0)*+(11*0)00*"))
         self.assertNotEqual(tup, compare("(0+11*0)*", "0*1(1+00*1)*00* + 0"))
+
+if __name__ == "__main__":
+    unittest.main()
