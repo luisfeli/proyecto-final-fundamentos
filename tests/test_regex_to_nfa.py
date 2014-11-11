@@ -21,6 +21,59 @@ class TestRegexToNfa(unittest.TestCase):
         self.assertEqual(tup, compare("(0+11*0)*", "(0+11*0)*+(11*0)*00*"))
         self.assertEqual(tup, compare("(0+11*0)*", "0*1(1+00*1)*00* + 0*"))
 
+        self.assertEqual(tup, compare("((000*1+01)(0+11*0)+10+111*0)((1+00*1)(0+11*0))*", "(000*10+010+000*111*0+0111*0+10+111*0)((1+00*1)(0+11*0))*"))
+        self.assertEqual(tup, compare("((000*1+01)(0+11*0)+10+111*0)((1+00*1)(0+11*0))*", "((000*1+01)(0+11*0)+10+111*0)(10+00*10+111*0+00*111*0)*"))
+        self.assertEqual(tup, compare("((000*1+01)(0+11*0)+10+111*0)((1+00*1)(0+11*0))*", "(000*10+010+000*111*0+0111*0+10+111*0)(10+00*10+111*0+00*111*0)*"))
+
+        # This one takes forever to complete
+        self.assertEqual(tup, compare("((000*1+01)(0+11*0)+10+111*0)((1+00*1)(0+11*0))*", "0*11*0((11*0)*+00*11*0)*"))
+
+        # This one fails with ERROR: stack is not empty
+        self.assertEqual(tup, compare("((000*1+01)(0+11*0)+10+111*0)((1+00*1)(0+11*0))*", "0*11*0((1+00*1)1*0)*"))
+
+        self.assertEqual(tup, compare("((000*1+01)(0+11*0)+10+111*0)((1+00*1)(0+11*0))*", "0*11*0(11*0+00*11*0)*"))
+
+        ################
+        self.assertEqual(tup, compare("(000*10+010+000*111*0+0111*0+10+111*0)((1+00*1)(0+11*0))*", "((000*1+01)(0+11*0)+10+111*0)(10+00*10+111*0+00*111*0)*"))
+        self.assertEqual(tup, compare("(000*10+010+000*111*0+0111*0+10+111*0)((1+00*1)(0+11*0))*", "(000*10+010+000*111*0+0111*0+10+111*0)(10+00*10+111*0+00*111*0)*"))
+
+        # This one takes forever to complete
+        self.assertEqual(tup, compare("(000*10+010+000*111*0+0111*0+10+111*0)((1+00*1)(0+11*0))*", "0*11*0((11*0)*+00*11*0)*"))
+
+        # This one fails with ERROR: stack is not empty
+        self.assertEqual(tup, compare("(000*10+010+000*111*0+0111*0+10+111*0)((1+00*1)(0+11*0))*", "0*11*0((1+00*1)1*0)*"))
+
+        # This one fails with ERROR: stack is not empty
+        self.assertEqual(tup, compare("(000*10+010+000*111*0+0111*0+10+111*0)((1+00*1)(0+11*0))*", "0*11*0(11*0+00*11*0)*"))
+
+        ################
+        self.assertEqual(tup, compare("((000*1+01)(0+11*0)+10+111*0)(10+00*10+111*0+00*111*0)*", "(000*10+010+000*111*0+0111*0+10+111*0)(10+00*10+111*0+00*111*0)*"))
+        # This one takes forever to complete
+        self.assertEqual(tup, compare("((000*1+01)(0+11*0)+10+111*0)(10+00*10+111*0+00*111*0)*", "0*11*0((11*0)*+00*11*0)*"))
+        # This one fails with ERROR: stack is not empty
+        self.assertEqual(tup, compare("((000*1+01)(0+11*0)+10+111*0)(10+00*10+111*0+00*111*0)*", "0*11*0((1+00*1)1*0)*"))
+
+        self.assertEqual(tup, compare("((000*1+01)(0+11*0)+10+111*0)(10+00*10+111*0+00*111*0)*", "0*11*0(11*0+00*11*0)*"))
+
+        ################
+
+        # This one takes forever to complete
+        self.assertEqual(tup, compare("(000*10+010+000*111*0+0111*0+10+111*0)(10+00*10+111*0+00*111*0)*", "0*11*0((11*0)*+00*11*0)*"))
+        # This one fails with ERROR: stack is not empty
+        self.assertEqual(tup, compare("(000*10+010+000*111*0+0111*0+10+111*0)(10+00*10+111*0+00*111*0)*", "0*11*0((1+00*1)1*0)*"))
+        # This one takes forever to complete
+        self.assertEqual(tup, compare("(000*10+010+000*111*0+0111*0+10+111*0)(10+00*10+111*0+00*111*0)*", "0*11*0(11*0+00*11*0)*"))
+
+        ################
+        # This one takes forever to complete
+        self.assertEqual(tup, compare("0*11*0((11*0)*+00*11*0)*", "0*11*0((1+00*1)1*0)*"))
+        # This one takes forever to complete
+        self.assertEqual(tup, compare("0*11*0((11*0)*+00*11*0)*", "0*11*0(11*0+00*11*0)*"))
+
+        ################
+        # This one fails with ERROR: stack is not empty
+        self.assertEqual(tup, compare("0*11*0((1+00*1)1*0)*", "0*11*0(11*0+00*11*0)*"))
+
         # The following tests I THINK are equal. Please take a look at them
         # They are failing
         self.assertEqual(tup, compare("a", "#a"))
