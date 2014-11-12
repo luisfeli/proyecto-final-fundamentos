@@ -44,7 +44,7 @@ def add_concatenation_dot(s):
     :param s: Regular expression
     :return: Regular expression with '.'s representing concatenation
     """
-    pattern = re.compile(r'[a-zA-Z0-9#][a-zA-Z0-9#]|\)\(|\*[a-zA-Z0-9#]|\*\(|[a-zA-Z0-9#]\(')
+    pattern = re.compile(r'[a-zA-Z0-9#][a-zA-Z0-9#]|\)\(|\*[a-zA-Z0-9#]|\*\(|[a-zA-Z0-9#]\(|\)[a-zA-Z0-9#]')
     res = pattern.search(s)
     while(res):
         target_str = res.group()

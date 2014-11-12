@@ -69,6 +69,10 @@ class TestReNotation(unittest.TestCase):
         self.assertEqual("+*.a.be+.*c*d..fg+.hi.jj", infix_to_prefix("(abe)* + (c)*(d)* + (fg)(hi + jj)"))
         self.assertEqual("+*.a.be+.*.cx*.dy..fg+.hi.jj", infix_to_prefix("(abe)* + (cx)*(dy)* + (fg)(hi + jj)"))
         self.assertEqual("+*.a.be+.*.cx*.dy..fg.+.hi.jj*+.yy.xx", infix_to_prefix("(abe)* + (cx)*(dy)* + (fg)(hi + jj)(yy + xx)*"))
+        self.assertEqual("+1.0.*01", infix_to_prefix("(1+00*1)"))
+        self.assertEqual(".11", infix_to_prefix("(1)1"))
+        self.assertEqual(".+1.0.*011", infix_to_prefix("(1+00*1)1"))
+        self.assertEqual(".+1.0.*01*1", infix_to_prefix("(1+00*1)1*"))
 
     def test_infix_to_prefix_unbalanced_parenthesis(self):
         self.assertRaises(Exception, infix_to_prefix, "(a")
