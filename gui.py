@@ -151,11 +151,11 @@ class Controller():
         print stream.read()
         stream.seek(0)
 
-
         # Commented the next lines because it hangs
-        #regex_to_nfa_test_results = runner.run(unittest.makeSuite(test_regex_to_nfa.TestRegexToNfa))
-        #print stream.read()
-
+        regex_to_nfa_test_results = runner.run(unittest.makeSuite(test_regex_to_nfa.TestRegexToNfa))
+        stream.seek(0)
+        print stream.read()
+        stream.seek(0)
 
         # Commented the next lines because it hangs
 
