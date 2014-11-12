@@ -76,6 +76,7 @@ class TestRegexToNfa(unittest.TestCase):
         tup = (True, "dfa1 and dfa2 accept the same language")
 
         self.assertNotEqual(tup, compare("a", "a*"))
+        self.assertNotEqual(tup, compare("a+#", "a"))
         self.assertNotEqual(tup, compare("a(a+b)*bb", "a(b+a)*bbb"))
         self.assertNotEqual(tup, compare("(a+b)* b (a+b)* b (a+b)*", "a* b a* b (a+b)*aa"))
         self.assertNotEqual(tup, compare("(0+11*0)*", "(11*0)*+(11*0)0*"))
