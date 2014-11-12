@@ -35,6 +35,14 @@ class NFA(object):
         self._alphabet.add(symbol)
         self._transitions[(self._start, symbol)] = set(self._end)
 
+    def init_empty_string(self):
+        """NFA that accepts the empty string '#'"""
+        self._start = NFA.create_new_state()
+        self._end.add(self._start)
+
+        self._states.add(self._start)
+        self._alphabet.add('#')
+
     def add_transition(self, state, symbol, next_states):
         """
         symbol may be a number
@@ -430,7 +438,10 @@ def build_dfa(regex):
             op = stack.pop()
             nfa = nfa_kleene_star(op)
             stack.append(nfa)
-
+        elif symbol == '#':
+            symbol_nfa = NFA()
+            symbol_nfa.init_empty_string()
+            stack.append(symbol_nfa)
         else:
             print "ERROR: Unkown symbol {0}\n".format(symbol)
             return -1
