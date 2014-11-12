@@ -242,6 +242,7 @@ def epsilon_closure(state, nfa):
     #RECURSIVE????
     stack = [state]
     e_closure = set(stack)
+    analized_states = set()
 
     while stack:
         current_state = stack.pop()
@@ -250,11 +251,11 @@ def epsilon_closure(state, nfa):
         except KeyError:
             new_states = set()
 
-        # WARNING: what if d(state, symbol) = state infinite loop???
-        # only if empty transition to the same state
+        analized_states.add(current_state)
         for a_state in new_states:
-            stack.append(a_state)
             e_closure.add(a_state)
+            if a_state not in analized_states:
+                stack.append(a_state)
 
     return e_closure
 
