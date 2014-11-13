@@ -293,7 +293,10 @@ def remove_empty_transitions(nfa1):
                     except KeyError:
                         continue
 
-    # MISSING: if start_state in F then start_start is also an accepting state
+    # if start_state in F then start_start is also an accepting state
+    if not ext_function[nfa1.get_start_state()].isdisjoint(nfa1.get_final_states()):
+        nfa.add_a_final_state(nfa1.get_start_state())
+
     return nfa
 
 
@@ -346,8 +349,12 @@ def nfa_to_dfa(nfa1):
     """the NFA should NOT contain empty transitions"""
     dfa = DFA()
     dfa.set_start_state(nfa1.get_start_state())
-    ##dfa.set_final_states(nfa1.get_final_states_copy())
     # states and alphabet will be set automatically
+
+    # add initial state to the final states set if
+    # initial state is a final state
+    if nfa1.get_start_state() in nfa1.get_final_states():
+        dfa.add_a_final_state(nfa1.get_start_state())
 
     stack = nfa1.get_list_of_rechable_states()
     states_analized = set([NFA.HELL_STATE])
@@ -383,6 +390,15 @@ def compare_dfas(dfa1, dfa2):
     true if both DFA's recognize the same language"""
     if dfa1.get_nfa_alphabet() != dfa2.get_nfa_alphabet():
         return (False, "Not the same alphabet")
+
+    # verify if start states are 'compatible'
+    both_accept = (dfa1.get_start_state() in dfa1.get_final_states() and
+                   dfa2.get_start_state() in dfa2.get_final_states())
+    both_reject = (dfa1.get_start_state() not in dfa1.get_final_states() and
+                   dfa2.get_start_state() not in dfa2.get_final_states())
+
+    if not (both_accept or both_reject):
+        return (False, "one of the regex accepts the empty string")
 
     stack = []
     stack.append((dfa1.get_start_state(), dfa2.get_start_state(), ''))
