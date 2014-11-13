@@ -10,7 +10,6 @@ from tests import test_re_notation
 from tests import test_regex_to_nfa
 
 
-
 class GUI(Tkinter.Frame):
     def __init__(self, parent):
         Tkinter.Frame.__init__(self, parent)
