@@ -25,7 +25,7 @@ class TestRegexToNfa(unittest.TestCase):
 
         # ###############
         # Begin Alfonso's test cases
-        ################
+        # ###############
         self.assertEqual(tup, compare("((000*1+01)(0+11*0)+10+111*0)((1+00*1)(0+11*0))*",
                                       "(000*10+010+000*111*0+0111*0+10+111*0)((1+00*1)(0+11*0))*"))
         self.assertEqual(tup, compare("((000*1+01)(0+11*0)+10+111*0)((1+00*1)(0+11*0))*",
@@ -91,10 +91,7 @@ class TestRegexToNfa(unittest.TestCase):
         self.assertEqual(tup, compare("#", "#"))
         self.assertEqual(tup, compare("abcdefghijklmnopqrstuvwxyz", "a#bc#de#fghi#jklm#nopq#rst#uvw#xyz#"))
         self.assertEqual(tup, compare("hello+world", "world+hello"))
-        self.assertEqual(tup, compare("(a*b)(a+b)*", "#+a*b(a+b)*#"))
         self.assertEqual(tup, compare("#a*(b(a+b)*)#", "a*b(a+b)*"))
-
-
 
 
     def test_invalid_tests(self):
@@ -112,8 +109,11 @@ class TestRegexToNfa(unittest.TestCase):
         self.assertNotEqual(tup, compare("00+11+22+33", "00*+11*+22*+33*"))
         self.assertNotEqual(tup, compare("1(0+1)*1", "101+111+#"))
         self.assertNotEqual(tup, compare("0*1*0*", "#"))
-        self.assertNotEqual(tup, compare("a(aa+b)* + a(aa+b)*ab+b(ba+a)(aa+b)*ab+bb)*(ba+a)(aa+b)*#",
-                                      "(a(aa+b)*ab+b)((ba+a)(aa+b)*ab+bb)*((ba+a)(aa+b)*#)+a(aa+b)*"))
+        self.assertNotEqual(tup, compare("a(aa+b)* + a(aa+b)*ab+b(ba+a)((aa+b)*ab+bb)*(ba+a)(aa+b)*#",
+                                         "(a(aa+b)*ab+b)((ba+a)(aa+b)*ab+bb)*((ba+a)(aa+b)*#)+a(aa+b)*"))
+
+        self.assertNotEqual(tup, compare("(a)*b(a+b)*", "#+a*b(a+b)*#"))
+
 
 if __name__ == "__main__":
     unittest.main()
