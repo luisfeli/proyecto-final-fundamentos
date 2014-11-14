@@ -5,6 +5,7 @@ import re_notation
 import regex_to_nfa
 import tkMessageBox
 import unittest
+import tkFont
 from StringIO import StringIO
 from tests import test_re_notation
 from tests import test_regex_to_nfa
@@ -44,8 +45,8 @@ class GUI(Tkinter.Frame):
         self.first_regex = Tkinter.Entry(self)
         self.first_regex["text"] = ""
         self.first_regex.insert(0, "")
-        self.first_regex["width"] = 30
-        self.first_regex.grid(row=0, column=1)
+        self.first_regex["width"] = 60
+        self.first_regex.grid(row=0, column=1, sticky=Tkinter.W)
 
         # Second regex label
         self.second_regex_label = Tkinter.Label(self)
@@ -56,27 +57,45 @@ class GUI(Tkinter.Frame):
         self.second_regex = Tkinter.Entry(self)
         self.second_regex["text"] = ""
         self.second_regex.insert(0, "")
-        self.second_regex["width"] = 30
-        self.second_regex.grid(row=1, column=1)
+        self.second_regex["width"] = 60
+        self.second_regex.grid(row=1, column=1, sticky=Tkinter.W)
 
+        self.clean_button = Tkinter.Button(self)
+        self.clean_button["text"] = "Borrar campos"
+        self.clean_button.grid(row=0, column=2, rowspan=2, columnspan=2)
+
+        # Regex acceptance label
+        self.acceptanceStr = "Si reconocen el mismo lenguaje"
+        self.rejectStr = "No reconocen el mismo lenguaje"
+        self.resultFont = tkFont.Font(family="Helvetica", size=24, weight="bold")
+        self.resultStr = "                                           "
+
+        self.string_var = Tkinter.StringVar()
+        self.regex_cmp_label = Tkinter.Label(self, textvariable=self.string_var, fg = "blue", font=self.resultFont)
+        self.string_var.set(self.resultStr)
+        self.regex_cmp_label.grid(row=2, column=0, columnspan=3, sticky=Tkinter.W)
+
+        myfont = tkFont.Font(family="Helvetica", size=14)
+        self.details_str = Tkinter.StringVar()
+        self.details_label = Tkinter.Label(self, textvariable=self.details_str, font=myfont)
+        self.details_label.grid(row=3, column=0, rowspan=2, columnspan=2, sticky=Tkinter.W)
 
         #Boton comparar
         self.compare_button = Tkinter.Button(self)
         self.compare_button["text"] = "Comparar"
         self.compare_button["fg"] = "red"
-
-        self.compare_button.grid(row=3, column=2)
+        self.compare_button.grid(row=6, column=2)
 
         # Quit button
         self.quit_button = Tkinter.Button(self)
         self.quit_button["text"] = "Salir",
         self.quit_button["command"] = self.quit
-        self.quit_button.grid(row=3, column=3)
+        self.quit_button.grid(row=6, column=3)
 
         # Run tests button
         self.run_test_button = Tkinter.Button(self)
         self.run_test_button["text"] = "Test",
-        self.run_test_button.grid(row=3, column=0)
+        self.run_test_button.grid(row=6, column=0)
 
         self.grid()
 
@@ -101,6 +120,15 @@ class Controller():
     def binding(self):
         self.gui.compare_button["command"] = self.compare
         self.gui.run_test_button["command"] = self.run_test
+        self.gui.clean_button["command"] = self.clean_fields
+        self.root.bind('<Return>', lambda f: self.compare())
+
+    def clean_fields(self):
+        self.gui.string_var.set("")
+        self.gui.details_str.set("")
+        self.gui.regex_cmp_label["fg"] = "blue"
+        self.gui.first_regex.delete(0, Tkinter.END)
+        self.gui.second_regex.delete(0, Tkinter.END)
 
     def compare(self):
         # Model is actually called from here
@@ -130,12 +158,15 @@ class Controller():
 
         print "--------------------------------------------"
         if result:
-            message = "Las expresiones regulares son equivalentes"
+            self.gui.details_str.set("")
+            self.gui.string_var.set(self.gui.acceptanceStr)
+            self.gui.regex_cmp_label["fg"] = "blue"
         else:
-            message = "Las expresiones regulares no son equivalentes. \n"
-            message += "La cadena que los diferencia es: {0}".format(diff_string)
+            self.gui.string_var.set(self.gui.rejectStr)
+            self.gui.regex_cmp_label["fg"] = "red"
+            msg = "La cadena que los diferencia es: {0}".format(diff_string)
+            self.gui.details_str.set(msg)
 
-        tkMessageBox.showinfo("Fundamentos de la computacion", message)
 
     def run_test(self):
         stream = StringIO()
