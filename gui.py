@@ -15,8 +15,9 @@ class GUI(Tkinter.Frame):
         Tkinter.Frame.__init__(self, parent)
         self.parent = parent
         self.init_gui_grid()
+        self.center_window()
+        self.parent.resizable(0, 0)
 
-        #self.centerWindow()
 
     def init_gui_grid(self):
         self.parent.title("Fundamentos de la computacion")
@@ -41,8 +42,8 @@ class GUI(Tkinter.Frame):
 
         # First regex text field
         self.first_regex = Tkinter.Entry(self)
-        self.first_regex["text"] = "ab*"  # <--- does not work
-        self.first_regex.insert(0, "ab*")
+        self.first_regex["text"] = ""
+        self.first_regex.insert(0, "")
         self.first_regex["width"] = 30
         self.first_regex.grid(row=0, column=1)
 
@@ -53,8 +54,8 @@ class GUI(Tkinter.Frame):
 
         # Second regex text field
         self.second_regex = Tkinter.Entry(self)
-        self.second_regex["text"] = "(a+b)*"  # <--- does not work
-        self.second_regex.insert(0, "(a+b)*")
+        self.second_regex["text"] = ""
+        self.second_regex.insert(0, "")
         self.second_regex["width"] = 30
         self.second_regex.grid(row=1, column=1)
 
@@ -72,27 +73,22 @@ class GUI(Tkinter.Frame):
         self.quit_button["command"] = self.quit
         self.quit_button.grid(row=3, column=3)
 
-
-
         # Run tests button
         self.run_test_button = Tkinter.Button(self)
         self.run_test_button["text"] = "Test",
         self.run_test_button.grid(row=3, column=0)
 
-
-
-        self.pack()
+        self.grid()
 
     def center_window(self):
-        w = 400
-        h = 300
-
+        # We get the results we want but the window appears
+        # for a moment in the wrong position
+        self.parent.update()
         sw = self.parent.winfo_screenwidth()
         sh = self.parent.winfo_screenheight()
-
-        x = (sw - w) / 2
-        y = (sh - h) / 2
-        self.parent.geometry('%dx%d+%d+%d' % (w, h, x, y))
+        x = (sw / 2) - self.parent.winfo_width()/2
+        y = (sh / 2) - self.parent.winfo_height()/2
+        self.parent.geometry('+%d+%d' % (x, y))
 
 
 class Controller():
