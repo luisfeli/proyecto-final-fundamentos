@@ -74,6 +74,8 @@ def infix_to_prefix(re_expr):
     :param re_expr: String representing a regular expression in infix notation
     :return: regular expression in prefix notation
     """
+    if len(re_expr) == 0:
+        return str("#")
     stack = []
     result = ""
     unbalanced = 0

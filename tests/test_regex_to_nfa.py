@@ -17,6 +17,7 @@ class TestRegexToNfa(unittest.TestCase):
         compare = lambda r1, r2: compare_dfas(f(r1), f(r2))
         tup = (True, "dfa1 and dfa2 accept the same language")
 
+        self.assertEqual(tup, compare("", ""))
         self.assertEqual(tup, compare("a", "a"))
         self.assertEqual(tup, compare("a(a+b)*bb", "a(b+a)*bb"))
         self.assertEqual(tup, compare("(a+b)* b (a+b)* b (a+b)*", "a* b a* b (a+b)*"))
