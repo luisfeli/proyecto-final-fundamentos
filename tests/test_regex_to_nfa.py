@@ -75,6 +75,46 @@ class TestRegexToNfa(unittest.TestCase):
         self.assertEqual(tup, compare("0*11*0((1+00*1)1*0)*", "0*11*0(11*0+00*11*0)*"))
 
         ################
+        self.assertEqual(tup, compare("(((aa+b)(b((bbb*a+ab)b*a)*ba))*b((bbb*a+ab)b*a)*aa)*(aa+b)(b((bbb*a+ab)b*a)*ba)*b((bbb*a+ab)b*a)*(bbb*a+ab)b*",
+                                      "(((aa+b)(b(bbb*ab*a+abb*a)*ba))*b((bbb*a+ab)b*a)*aa)*(aa+b)(b(bbb*ab*a+abb*a)*ba)*b(bbb*ab*a+abb*a)*(bbb*a+ab)b*"))
+        self.assertEqual(tup, compare("(((aa+b)(b((bbb*a+ab)b*a)*ba))*b((bbb*a+ab)b*a)*aa)*(aa+b)(b((bbb*a+ab)b*a)*ba)*b((bbb*a+ab)b*a)*(bbb*a+ab)b*",
+                                      "(((aa+b)(b(bbb*ab*a+abb*a+#)*ba))*b((bbb*a+ab)b*a)*aa)*(aa+b)(b(bbb*ab*a+abb*a+#)*ba)*b(bbb*ab*a+abb*a+#)*(bbb*ab*+abb*)"))
+        self.assertEqual(tup, compare("(((aa+b)(b((bbb*a+ab)b*a)*ba))*b((bbb*a+ab)b*a)*aa)*(aa+b)(b((bbb*a+ab)b*a)*ba)*b((bbb*a+ab)b*a)*(bbb*a+ab)b*",
+                                      "((aa(b(bbb*ab*a+abb*a+#)*ba)+b(b(bbb*ab*a+abb*a+#)*ba))*b((bbb*a+ab)b*a)*aa)*(aa+b)(b(bbb*ab*a+abb*a+#)*ba)*b(bbb*ab*a+abb*a+#)*(bbb*ab*+abb*)"))
+
+        ################
+        self.assertEqual(tup, compare("(((aa+b)(b(bbb*ab*a+abb*a)*ba))*b((bbb*a+ab)b*a)*aa)*(aa+b)(b(bbb*ab*a+abb*a)*ba)*b(bbb*ab*a+abb*a)*(bbb*a+ab)b*",
+                                      "(((aa+b)(b(bbb*ab*a+abb*a+#)*ba))*b((bbb*a+ab)b*a)*aa)*(aa+b)(b(bbb*ab*a+abb*a+#)*ba)*b(bbb*ab*a+abb*a+#)*(bbb*ab*+abb*)"))
+        self.assertEqual(tup, compare("(((aa+b)(b(bbb*ab*a+abb*a)*ba))*b((bbb*a+ab)b*a)*aa)*(aa+b)(b(bbb*ab*a+abb*a)*ba)*b(bbb*ab*a+abb*a)*(bbb*a+ab)b*",
+                                      "((aa(b(bbb*ab*a+abb*a+#)*ba)+b(b(bbb*ab*a+abb*a+#)*ba))*b((bbb*a+ab)b*a)*aa)*(aa+b)(b(bbb*ab*a+abb*a+#)*ba)*b(bbb*ab*a+abb*a+#)*(bbb*ab*+abb*)"))
+
+        ################
+        self.assertEqual(tup, compare("(((aa+b)(b(bbb*ab*a+abb*a+#)*ba))*b((bbb*a+ab)b*a)*aa)*(aa+b)(b(bbb*ab*a+abb*a+#)*ba)*b(bbb*ab*a+abb*a+#)*(bbb*ab*+abb*)",
+                                      "((aa(b(bbb*ab*a+abb*a+#)*ba)+b(b(bbb*ab*a+abb*a+#)*ba))*b((bbb*a+ab)b*a)*aa)*(aa+b)(b(bbb*ab*a+abb*a+#)*ba)*b(bbb*ab*a+abb*a+#)*(bbb*ab*+abb*)"))
+
+        ################
+        self.assertEqual(tup, compare("((abb*a(b+a(ab+bbb*a))*aaa)+(aa+b+abb*a(b+a(ab+bbb*a))*aba)(b+aba+a(ab+bbb*a)(b+a(ab+bbb*a))*aba)*(aaa+a(ab+bbb*a)(b+a(ab+bbb*a))*aaa))*(((aa+b+abb*a(b+a(ab+bbb*a))*aba)(b+aba+a(ab+bbb*a)(b+a(ab+bbb*a))*aba)*(a(ab+bbb*a)(b+a(ab+bbb*a))*+#))+abb*a(b+a(ab+bbb*a))*)",
+                                      "(ab*a+b)(aaa(ab*a+b)+abb*a+b+aab)*"))
+        self.assertEqual(tup, compare("((abb*a(b+a(ab+bbb*a))*aaa)+(aa+b+abb*a(b+a(ab+bbb*a))*aba)(b+aba+a(ab+bbb*a)(b+a(ab+bbb*a))*aba)*(aaa+a(ab+bbb*a)(b+a(ab+bbb*a))*aaa))*(((aa+b+abb*a(b+a(ab+bbb*a))*aba)(b+aba+a(ab+bbb*a)(b+a(ab+bbb*a))*aba)*(a(ab+bbb*a)(b+a(ab+bbb*a))*+#))+abb*a(b+a(ab+bbb*a))*)",
+                                      "(ab*a+b)(aaa(ab*a+b)+abb*a+b+aab+#)*"))
+        self.assertEqual(tup, compare("((abb*a(b+a(ab+bbb*a))*aaa)+(aa+b+abb*a(b+a(ab+bbb*a))*aba)(b+aba+a(ab+bbb*a)(b+a(ab+bbb*a))*aba)*(aaa+a(ab+bbb*a)(b+a(ab+bbb*a))*aaa))*(((aa+b+abb*a(b+a(ab+bbb*a))*aba)(b+aba+a(ab+bbb*a)(b+a(ab+bbb*a))*aba)*(a(ab+bbb*a)(b+a(ab+bbb*a))*+#))+abb*a(b+a(ab+bbb*a))*)",
+                                      "(ab*a+b)(aaa(ab*a+b)+abb*a+b+aab+#)*"))
+        self.assertEqual(tup, compare("((abb*a(b+a(ab+bbb*a))*aaa)+(aa+b+abb*a(b+a(ab+bbb*a))*aba)(b+aba+a(ab+bbb*a)(b+a(ab+bbb*a))*aba)*(aaa+a(ab+bbb*a)(b+a(ab+bbb*a))*aaa))*(((aa+b+abb*a(b+a(ab+bbb*a))*aba)(b+aba+a(ab+bbb*a)(b+a(ab+bbb*a))*aba)*(a(ab+bbb*a)(b+a(ab+bbb*a))*+#))+abb*a(b+a(ab+bbb*a))*)",
+                                      "(ab*a+b)(aaaab*a+aaab+abb*a+b+aab+#)*"))
+
+        ################
+        self.assertEqual(tup, compare("(ab*a+b)(aaa(ab*a+b)+abb*a+b+aab)*", "(ab*a+b)(aaa(ab*a+b)+abb*a+b+aab+#)*"))
+        self.assertEqual(tup, compare("(ab*a+b)(aaa(ab*a+b)+abb*a+b+aab)*", "(ab*a+b)(aaa(ab*a+b)+abb*a+b+aab+#)*"))
+        self.assertEqual(tup, compare("(ab*a+b)(aaa(ab*a+b)+abb*a+b+aab)*", "(ab*a+b)(aaaab*a+aaab+abb*a+b+aab+#)*"))
+
+        ################
+        self.assertEqual(tup, compare("(ab*a+b)(aaa(ab*a+b)+abb*a+b+aab+#)*", "(ab*a+b)(aaa(ab*a+b)+abb*a+b+aab+#)*"))
+        self.assertEqual(tup, compare("(ab*a+b)(aaa(ab*a+b)+abb*a+b+aab+#)*", "(ab*a+b)(aaaab*a+aaab+abb*a+b+aab+#)*"))
+
+        ################
+        self.assertEqual(tup, compare("(ab*a+b)(aaa(ab*a+b)+abb*a+b+aab+#)*", "(ab*a+b)(aaaab*a+aaab+abb*a+b+aab+#)*"))
+
+        ################
         # End of Alfonso's test cases
         ################
 
