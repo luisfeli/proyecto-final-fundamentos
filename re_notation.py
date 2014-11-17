@@ -1,6 +1,7 @@
 __author__ = 'aortegag'
 import re
 
+
 class Precedence:
     # 5 is the highest precedence
     PARENTHESIS = 5
@@ -30,9 +31,12 @@ def is_operator(c):
 def invert_parenthesis(s):
     result = ""
     for c in s:
-        if c == "(": result += ")"
-        elif c == ")": result += "("
-        else: result += c
+        if c == "(":
+            result += ")"
+        elif c == ")":
+            result += "("
+        else:
+            result += c
     return result
 
 
@@ -46,9 +50,9 @@ def add_concatenation_dot(s):
     """
     pattern = re.compile(r'[a-zA-Z0-9#][a-zA-Z0-9#]|\)\(|\*[a-zA-Z0-9#]|\*\(|[a-zA-Z0-9#]\(|\)[a-zA-Z0-9#]')
     res = pattern.search(s)
-    while(res):
+    while (res):
         target_str = res.group()
-        s = re.sub(pattern, target_str[0]+"."+target_str[1], s, count=1)
+        s = re.sub(pattern, target_str[0] + "." + target_str[1], s, count=1)
         res = pattern.search(s)
     return s
 
@@ -85,7 +89,9 @@ def infix_to_prefix(re_expr):
     valid = ["#", "+", "(", ")", "*", "."]
     for c in re_expr:
         if c not in valid and not c.isalnum():
-            raise Exception("Invalid character {0} in regular expression {1}.\nOnly alphanumeric symbols are allowed.".format(c, re_expr))
+            raise Exception(
+                "Invalid character {0} in regular expression {1}.\nOnly alphanumeric symbols are allowed.".format(c,
+                                                                                                                  re_expr))
 
     validate_operator_position(re_expr)
     re_expr = add_concatenation_dot(re_expr)
@@ -109,7 +115,7 @@ def infix_to_prefix(re_expr):
                 continue
 
             while stack and (precedence(stack[-1]) >= precedence(c)) and stack[-1] != "(":
-                if stack[-1] == "*" and c == "*": # special case for kleene as it's a unary operator
+                if stack[-1] == "*" and c == "*":  # special case for kleene as it's a unary operator
                     break
                 top = stack.pop()
                 if top != "(" and top != ")":
@@ -118,9 +124,11 @@ def infix_to_prefix(re_expr):
         else:
             result += c
 
-    if unbalanced : raise Exception("Unbalanced parenthesis!")
+    if unbalanced:
+        raise Exception("Parentesis no balanceado")
 
-    while(stack): result += stack.pop()
+    while stack:
+        result += stack.pop()
 
     # Revert regex again so we can read it in prefix notation
     return result[::-1]

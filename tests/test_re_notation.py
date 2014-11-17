@@ -89,7 +89,6 @@ class TestReNotation(unittest.TestCase):
     def test_infix_to_prefix_wrong_operator_order(self):
         self.assertRaises(Exception, infix_to_prefix, "a+")
         self.assertRaises(Exception, infix_to_prefix, "+a")
-        self.assertRaises(Exception, infix_to_prefix, "a+")
         self.assertRaises(Exception, infix_to_prefix, "*a")
         self.assertRaises(Exception, infix_to_prefix, ")a(")
         self.assertRaises(Exception, infix_to_prefix, ")a")
