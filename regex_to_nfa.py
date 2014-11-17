@@ -389,7 +389,7 @@ def compare_dfas(dfa1, dfa2):
     """recevies 2 deterministic finite automatas, returns
     true if both DFA's recognize the same language"""
     if dfa1.get_nfa_alphabet() != dfa2.get_nfa_alphabet():
-        return (False, "Not the same alphabet")
+        return (False, "No tienen el mismo alfabeto")
 
     # verify if start states are 'compatible'
     both_accept = (dfa1.get_start_state() in dfa1.get_final_states() and
@@ -398,7 +398,13 @@ def compare_dfas(dfa1, dfa2):
                    dfa2.get_start_state() not in dfa2.get_final_states())
 
     if not (both_accept or both_reject):
-        return (False, "one of the regex accepts the empty string")
+        dfa1_accepts = dfa1.get_start_state() in dfa1.get_final_states()
+        output_message = ("La {0} expresion regular accepta la palabra"
+                          " vacia pero la {1} expresion regular no")
+        if dfa1_accepts:
+            return (False, output_message.format('1ra', '2da'))
+        else:
+            return (False, output_message.format('2da', '1ra'))
 
     stack = []
     stack.append((dfa1.get_start_state(), dfa2.get_start_state(), ''))
@@ -418,7 +424,13 @@ def compare_dfas(dfa1, dfa2):
                            next_state2 not in dfa2.get_final_states())
 
             if not (both_accept or both_reject):
-                result = (False, input_str + symbol)
+                dfa1_accepts = next_state1 in dfa1.get_final_states()
+                output_message = ("La {0} expresion regular accepta la palabra '{1}'"
+                                  " pero la {2} expresion regular no")
+                if dfa1_accepts:
+                    result = (False, output_message.format('1ra', input_str+symbol, '2da'))
+                else:
+                    result = (False, output_message.format('2da', input_str+symbol, '1ra'))
                 break
 
             # prepare stack for future iterations
