@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 __author__ = 'Uyuni'
 import Tkinter
 import ttk
