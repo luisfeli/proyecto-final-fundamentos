@@ -164,8 +164,7 @@ class Controller():
         else:
             self.gui.string_var.set(self.gui.rejectStr)
             self.gui.regex_cmp_label["fg"] = "red"
-            msg = "La cadena que los diferencia es: {0}".format(diff_string)
-            self.gui.details_str.set(msg)
+            self.gui.details_str.set(diff_string)
 
 
     def run_test(self):
