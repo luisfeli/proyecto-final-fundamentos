@@ -81,6 +81,12 @@ def infix_to_prefix(re_expr):
     unbalanced = 0
     # It's mandatory to remove whitespaces FIRST
     re_expr = re.sub(r'\s+', '', re_expr)
+
+    valid = ["#", "+", "(", ")", "*", "."]
+    for c in re_expr:
+        if c not in valid and not c.isalnum():
+            raise Exception("Invalid character {0} in regular expression {1}.\nOnly alphanumeric symbols are allowed.".format(c, re_expr))
+
     validate_operator_position(re_expr)
     re_expr = add_concatenation_dot(re_expr)
     # reverse string and then invert parenthesis

@@ -141,31 +141,36 @@ class Controller():
         print first_regex
         print second_regex
 
-        regex1 = re_notation.infix_to_prefix(first_regex)
-        regex2 = re_notation.infix_to_prefix(second_regex)
+        try:
+            regex1 = re_notation.infix_to_prefix(first_regex)
+            regex2 = re_notation.infix_to_prefix(second_regex)
 
-        print "--------------------------------------------"
-        print "Converted regular expressions to prefix notation:"
-        print regex1
-        print regex2
+            print "--------------------------------------------"
+            print "Converted regular expressions to prefix notation:"
+            print regex1
+            print regex2
 
-        first_dfa = regex_to_nfa.build_dfa(regex1)
-        second_dfa = regex_to_nfa.build_dfa(regex2)
+            first_dfa = regex_to_nfa.build_dfa(regex1)
+            second_dfa = regex_to_nfa.build_dfa(regex2)
 
-        result, diff_string = regex_to_nfa.compare_dfas(first_dfa, second_dfa)
-        print "--------------------------------------------"
-        print "Do the regular expressions recognize the same language?"
-        print result
+            result, diff_string = regex_to_nfa.compare_dfas(first_dfa, second_dfa)
+            print "--------------------------------------------"
+            print "Do the regular expressions recognize the same language?"
+            print result
 
-        print "--------------------------------------------"
-        if result:
-            self.gui.details_str.set("")
-            self.gui.string_var.set(self.gui.acceptanceStr)
-            self.gui.regex_cmp_label["fg"] = "blue"
-        else:
-            self.gui.string_var.set(self.gui.rejectStr)
+            print "--------------------------------------------"
+            if result:
+                self.gui.details_str.set("")
+                self.gui.string_var.set(self.gui.acceptanceStr)
+                self.gui.regex_cmp_label["fg"] = "blue"
+            else:
+                self.gui.string_var.set(self.gui.rejectStr)
+                self.gui.regex_cmp_label["fg"] = "red"
+                self.gui.details_str.set(diff_string)
+        except Exception as e:
+            self.gui.string_var.set("Error while processing regular expressions.")
             self.gui.regex_cmp_label["fg"] = "red"
-            self.gui.details_str.set(diff_string)
+            self.gui.details_str.set(e.message)
 
 
     def run_test(self):
