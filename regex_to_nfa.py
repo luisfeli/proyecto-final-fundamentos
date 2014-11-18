@@ -333,8 +333,8 @@ class DFA(NFA):
 
         if key in self._transitions:
             if self._transitions[key] != next_state:
-                err_mgs = ("ERROR: transition function already "
-                           "contains a entry for {0} to {1}")
+                err_mgs = ("ERROR: funcion de transicion ya "
+                           "contiene una entrada de {0} a {1}")
                 raise KeyError(err_mgs.format(key, self._transitions[key]))
 
         self._transitions[key] = next_state
@@ -473,7 +473,7 @@ def build_dfa(regex):
             symbol_nfa.init_empty_string()
             stack.append(symbol_nfa)
         else:
-            print "ERROR: Unkown symbol {0}\n".format(symbol)
+            print "ERROR: Simbolo desconocido {0}\n".format(symbol)
             return -1
 
     nfa = stack.pop()

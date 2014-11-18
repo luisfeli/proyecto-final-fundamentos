@@ -105,7 +105,7 @@ def infix_to_prefix(re_expr):
     for c in re_expr:
         if c not in valid and not c.isalnum():
             raise Exception(
-                "Invalid character {0} in regular expression {1}.\nOnly alphanumeric symbols are allowed.".format(c,
+                "Caracter invalido {0} en expresion regular {1}.\nSolo se permiten caracteres alfanumericos.".format(c,
                                                                                                                   re_expr))
 
     validate_operator_position(re_expr)
