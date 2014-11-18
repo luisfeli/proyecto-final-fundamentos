@@ -71,6 +71,21 @@ def validate_operator_position(s):
     if res:
         raise Exception("invalid regex")
 
+def validate_empty_parenthesis(s):
+    """
+    This is a very specific corner case in which the user provides a parenthesis with
+    nothing inside: () should translate to (#) and ()() to (#)(#)
+    :param s: The regular expression
+    :return: The regular expression with # inside empty parenthesis (#)
+    """
+    pattern = re.compile(r'\(\)')
+    res = pattern.search(s)
+    while (res):
+        target_str = res.group()
+        s = re.sub(pattern, target_str[0] + "#" + target_str[1], s, count=1)
+        res = pattern.search(s)
+    return s
+
 
 def infix_to_prefix(re_expr):
     """
@@ -95,6 +110,7 @@ def infix_to_prefix(re_expr):
 
     validate_operator_position(re_expr)
     re_expr = add_concatenation_dot(re_expr)
+    re_expr = validate_empty_parenthesis(re_expr)
     # reverse string and then invert parenthesis
     re_expr = invert_parenthesis(re_expr[::-1])
 
