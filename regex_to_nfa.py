@@ -2,6 +2,7 @@
 
 import copy
 
+
 class NFA(object):
     """Non-deterministic finite automata abstraction """
 
@@ -176,6 +177,7 @@ class NFA(object):
 
         return list(result)
 
+
 def nfa_union(nfa1, nfa2):
     """takes two NFA's returns the union NFA1+NFA2 """
     nfa = copy.deepcopy(nfa1)
@@ -247,7 +249,7 @@ def nfa_kleene_star(nfa1):
 
 def epsilon_closure(state, nfa):
     """state should be a string"""
-    #RECURSIVE????
+    # RECURSIVE????
     stack = [state]
     e_closure = set(stack)
     analized_states = set()
@@ -315,9 +317,9 @@ def _follow_empty_paths(states, eclosure_function):
     return final_states
 
 
-
 class DFA(NFA):
     """deterministic finite automata abstraction """
+
     def __str__(self):
         return 'hola DFA'
 
@@ -428,9 +430,9 @@ def compare_dfas(dfa1, dfa2):
                 output_message = ("La {0} expresion regular accepta la palabra '{1}'"
                                   " pero la {2} expresion regular no")
                 if dfa1_accepts:
-                    result = (False, output_message.format('1ra', input_str+symbol, '2da'))
+                    result = (False, output_message.format('1ra', input_str + symbol, '2da'))
                 else:
-                    result = (False, output_message.format('2da', input_str+symbol, '1ra'))
+                    result = (False, output_message.format('2da', input_str + symbol, '1ra'))
                 break
 
             # prepare stack for future iterations

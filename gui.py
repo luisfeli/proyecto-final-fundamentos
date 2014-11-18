@@ -24,7 +24,6 @@ class GUI(Tkinter.Frame):
     def init_gui_grid(self):
         self.parent.title("Fundamentos de la computacion")
         self.style = ttk.Style().configure("TButton", padding=(0, 5, 0, 5))
-
         self.columnconfigure(0, pad=3)
         self.columnconfigure(1, pad=3)
         self.columnconfigure(2, pad=3)
@@ -72,7 +71,7 @@ class GUI(Tkinter.Frame):
         self.resultStr = "                                           "
 
         self.string_var = Tkinter.StringVar()
-        self.regex_cmp_label = Tkinter.Label(self, textvariable=self.string_var, fg = "blue", font=self.resultFont)
+        self.regex_cmp_label = Tkinter.Label(self, textvariable=self.string_var, fg="blue", font=self.resultFont)
         self.string_var.set(self.resultStr)
         self.regex_cmp_label.grid(row=2, column=0, columnspan=3, sticky=Tkinter.W)
 
@@ -81,7 +80,7 @@ class GUI(Tkinter.Frame):
         self.details_label = Tkinter.Label(self, textvariable=self.details_str, font=myfont)
         self.details_label.grid(row=3, column=0, rowspan=2, columnspan=2, sticky=Tkinter.W)
 
-        #Boton comparar
+        # Boton comparar
         self.compare_button = Tkinter.Button(self)
         self.compare_button["text"] = "Comparar"
         self.compare_button["fg"] = "red"
@@ -106,8 +105,8 @@ class GUI(Tkinter.Frame):
         self.parent.update()
         sw = self.parent.winfo_screenwidth()
         sh = self.parent.winfo_screenheight()
-        x = (sw / 2) - self.parent.winfo_width()/2
-        y = (sh / 2) - self.parent.winfo_height()/2
+        x = (sw / 2) - self.parent.winfo_width() / 2
+        y = (sh / 2) - self.parent.winfo_height() / 2
         self.parent.geometry('+%d+%d' % (x, y))
 
 
@@ -168,7 +167,7 @@ class Controller():
                 self.gui.regex_cmp_label["fg"] = "red"
                 self.gui.details_str.set(diff_string)
         except Exception as e:
-            self.gui.string_var.set("Error while processing regular expressions.")
+            self.gui.string_var.set("Error al procesar las expresiones regulares.")
             self.gui.regex_cmp_label["fg"] = "red"
             self.gui.details_str.set(e.message)
 
@@ -188,19 +187,6 @@ class Controller():
         print stream.read()
         stream.seek(0)
 
-        # Commented the next lines because it hangs
-
-        # re_notation_suite = unittest.TestSuite()
-        # re_notation_suite.addTest(test_re_notation.TestReNotation())
-        #
-        # regex_to_nfa_suite = unittest.TestSuite()
-        # regex_to_nfa_suite.addTest(test_regex_to_nfa.TestRegexToNfa())
-
-        #test_suite = unittest.TestLoader().discover("./tests")
-        #re_notation = unittest.TextTestRunner(verbosity=1).run(test_suite)
-        #regex_to_nfa = unittest.TextTestRunner(verbosity=1).run(regex_to_nfa_suite)
-        #print re_notation
-        #print regex_to_nfa
 
 def main():
     controller = Controller()
