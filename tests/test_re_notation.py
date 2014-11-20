@@ -10,6 +10,18 @@ import unittest
 
 class TestReNotation(unittest.TestCase):
     def test_infix_to_prefix_valid_cases(self):
+        self.assertEqual("%", infix_to_prefix("%"))
+        self.assertEqual(".%%", infix_to_prefix("%%"))
+        self.assertEqual(".%.%%", infix_to_prefix("%%%"))
+        self.assertEqual(".%.%.%%", infix_to_prefix("%%%%"))
+        self.assertEqual(".%.%.%%", infix_to_prefix("%  %   %  %"))
+        self.assertEqual("*%", infix_to_prefix("%*"))
+        self.assertEqual(".*%.*%*%", infix_to_prefix("%*.%*.%*"))
+        self.assertEqual(".*%a", infix_to_prefix("%*(a)"))
+        self.assertEqual(".*%.ab", infix_to_prefix("%*(ab)"))
+        self.assertEqual(".*%.a.b*%", infix_to_prefix("%*(ab%*)"))
+        self.assertEqual("**%", infix_to_prefix("%**"))
+        self.assertEqual("***%", infix_to_prefix("%***"))
         self.assertEqual("#", infix_to_prefix(""))
         self.assertEqual("#", infix_to_prefix("#"))
         self.assertEqual(".##", infix_to_prefix("##"))

@@ -48,7 +48,7 @@ def add_concatenation_dot(s):
     :param s: Regular expression
     :return: Regular expression with '.'s representing concatenation
     """
-    pattern = re.compile(r'[a-zA-Z0-9#][a-zA-Z0-9#]|\)\(|\*[a-zA-Z0-9#]|\*\(|[a-zA-Z0-9#]\(|\)[a-zA-Z0-9#]')
+    pattern = re.compile(r'[a-zA-Z0-9#%][a-zA-Z0-9#%]|\)\(|\*[a-zA-Z0-9#%]|\*\(|[a-zA-Z0-9#%]\(|\)[a-zA-Z0-9#%]')
     res = pattern.search(s)
     while (res):
         target_str = res.group()
@@ -101,7 +101,7 @@ def infix_to_prefix(re_expr):
     # It's mandatory to remove whitespaces FIRST
     re_expr = re.sub(r'\s+', '', re_expr)
 
-    valid = ["#", "+", "(", ")", "*", "."]
+    valid = ["#", "+", "(", ")", "*", ".", "%"]
     for c in re_expr:
         if c not in valid and not c.isalnum():
             raise Exception(
